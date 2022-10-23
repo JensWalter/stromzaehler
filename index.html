@@ -32,7 +32,7 @@
     }
     setInterval(run, 10000);
     async function init() {
-        let constraints = { video: { facingMode: { exact: 'environment' } }, audio: false };
+        let constraints = { video: { facingMode: 'environment' }, audio: false };
         try {
             stream = await navigator.mediaDevices.getUserMedia(constraints);
         } catch (err) {
