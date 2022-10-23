@@ -3,24 +3,29 @@
 <body>
     <video autoplay></video>
     <canvas></canvas>
+    <div id="log"></div>
 </body>
 <script>
     var stream;
     var track;
     async function takepicture() {
-        let canvas = document.querySelector('canvas');
-        let video = document.querySelector('video');
-        await torchOn();
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        const context = canvas.getContext('2d');
-        context.drawImage(video, 0, 0);
-        const data = canvas.toDataURL('image/png');
-        await torchOff();
+        try {
+            let canvas = document.querySelector('canvas');
+            let video = document.querySelector('video');
+            await torchOn();
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            const context = canvas.getContext('2d');
+            context.drawImage(video, 0, 0);
+            const data = canvas.toDataURL('image/png');
+            await torchOff();
+        } catch (err) {
+            document.querySelector('#log').innerText = err;
+        }
     }
     function onCapabilitiesReady(capabilities) {
         if (capabilities.torch) {
-            const track = stream.getVideoTracks()[0];
+            track = stream.getVideoTracks()[0];
         } else {
             alert('no torch found');
         }
