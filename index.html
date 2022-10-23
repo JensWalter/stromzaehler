@@ -15,10 +15,9 @@
     async function takepicture() {
         try {
             stream = await navigator.mediaDevices.getUserMedia(constraints);
-            var video = document.querySelector('video');
+            let video = document.querySelector('video');
             video.srcObject = stream;
             let canvas = document.querySelector('canvas');
-            let video = document.querySelector('video');
             await torchOn();
             await sleep(1000);
             canvas.width = video.videoWidth;
