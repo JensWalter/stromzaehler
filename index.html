@@ -9,22 +9,16 @@
 <script>
     var stream;
     var errorCallback = function (e) {
-        console.log(e);
-        alert('Reeeejected!', e);
+        if(e.name=='OverconstrainedError'){
+            navigator.getUserMedia({video:true,audio:false}, gotStream, errorCallback);
+        }else{
+            console.log(e);
+            alert('Reeeejected!', e);
+        }
     };
-    var vgaConstraints = {
-        video: {
-            // mandatory: {
-            //     maxWidth: 640,
-            //     maxHeight: 480
-            // },
-            facingMode: {
-                exact: 'environment'
-            }
-        },
-        audio: false
-    };
-    navigator.getUserMedia(vgaConstraints, function (localMediaStream) {
+    var vgaConstraints = {video: {facingMode: {exact: 'environment'}},audio: false};
+    navigator.getUserMedia(vgaConstraints, gotStream, errorCallback);
+    function gotStream(localMediaStream) {
         stream = localMediaStream;
         var video = document.querySelector('video');
         video.src = window.URL.createObjectURL(localMediaStream);
@@ -35,7 +29,7 @@
                 onCapabilitiesReady(track.getCapabilities())
             ), 500);
         });
-    }, errorCallback);
+    }
     function takepicture() {
         let canvas = document.querySelector('canvas');
         let video = document.querySelector('video');
