@@ -9,7 +9,7 @@
 <script>
     var stream;
     var errorCallback = function (e) {
-        console.log('Reeeejected!', e);
+        alert('Reeeejected!', e);
     };
     var vgaConstraints = {
         video: {
@@ -46,9 +46,12 @@
     }
     function onCapabilitiesReady(capabilities) {
         if (capabilities.torch) {
+            alert('enable torch');
             track.applyConstraints({
                 advanced: [{ torch: true }]
             }).catch(e => console.log(e));
+        }else{
+            alert('no torch found');
         }
     }
     function run(){
