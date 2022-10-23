@@ -24,7 +24,10 @@
             alert('enable torch');
             track.applyConstraints({
                 advanced: [{ torch: true }]
-            }).catch(e => console.log(e));
+            }).catch(e => {
+                alert(e);
+                console.log(e);
+            });
         } else {
             alert('no torch found');
         }
