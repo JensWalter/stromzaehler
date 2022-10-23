@@ -13,7 +13,7 @@
         let video = document.querySelector('video');
         let photo = document.querySelector('img');
         const context = canvas.getContext('2d');
-        context.drawImage(video, 0, 0, 640, 480);
+        context.drawImage(video, 0, 0);
         const data = canvas.toDataURL('image/png');
         photo.setAttribute('src', data);
     }
