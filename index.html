@@ -44,7 +44,7 @@
             }
         }
         var video = document.querySelector('video');
-        video.src = window.URL.createObjectURL(stream);
+        video.srcObject = stream;
         const track = stream.getVideoTracks()[0];
         video.addEventListener('loadedmetadata', (e) => {
             window.setTimeout(() => (
