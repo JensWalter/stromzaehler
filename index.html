@@ -6,28 +6,34 @@
 </body>
 <script>
     var stream;
-    function takepicture() {
+    var track;
+    async function takepicture() {
         let canvas = document.querySelector('canvas');
         let video = document.querySelector('video');
+        await torchOn();
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         const context = canvas.getContext('2d');
         context.drawImage(video, 0, 0);
         const data = canvas.toDataURL('image/png');
+        await torchOff();
     }
     function onCapabilitiesReady(capabilities) {
         if (capabilities.torch) {
-            alert('enable torch');
             const track = stream.getVideoTracks()[0];
-            track.applyConstraints({
-                advanced: [{ torch: true }]
-            }).catch(e => {
-                alert(e);
-                console.log(e);
-            });
         } else {
             alert('no torch found');
         }
+    }
+    async function torchOn() {
+        return track.applyConstraints({
+            advanced: [{ torch: true }]
+        });
+    }
+    async function torchOff() {
+        return track.applyConstraints({
+            advanced: [{ torch: false }]
+        });
     }
     function run() {
         takepicture()
