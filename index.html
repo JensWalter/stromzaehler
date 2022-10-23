@@ -8,6 +8,9 @@
 <script>
     var stream;
     var track;
+    const sleep = (milliseconds) => {
+       return new Promise(resolve => setTimeout(resolve, milliseconds))
+    }
     async function takepicture() {
         try {
             let canvas = document.querySelector('canvas');
@@ -18,8 +21,8 @@
             const context = canvas.getContext('2d');
             context.drawImage(video, 0, 0);
             const data = canvas.toDataURL('image/png');
-            setTimeout(torchOff,1000);
-            // await torchOff();
+            await sleep(1000);
+            await torchOff();
         } catch (err) {
             document.querySelector('#log').innerText = err;
         }
