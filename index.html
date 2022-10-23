@@ -16,6 +16,7 @@
             let canvas = document.querySelector('canvas');
             let video = document.querySelector('video');
             await torchOn();
+            await sleep(1000);
             canvas.width = video.videoWidth;
             canvas.height = video.videoHeight;
             const context = canvas.getContext('2d');
