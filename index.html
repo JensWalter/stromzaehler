@@ -37,7 +37,7 @@
             stream = await navigator.mediaDevices.getUserMedia(constraints);
         } catch (err) {
             if (err.name == 'OverconstrainedError') {
-                stream = await navigator.getUserMedia({ video: true, audio: false });
+                stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
             } else {
                 console.log(err);
                 alert('Reeeejected!', err);
