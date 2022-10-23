@@ -42,9 +42,10 @@
     }
     async function torchOff() {
         let track = stream.getVideoTracks()[0];
-        return track.applyConstraints({
-            advanced: [{ torch: false }]
-        });
+        track.stop();
+        // return track.applyConstraints({
+        //     advanced: [{ torch: false }]
+        // });
     }
     function run() {
         takepicture()
