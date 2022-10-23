@@ -3,33 +3,11 @@
 <body>
     <input type="file" accept="video/*;capture=camcorder">
     <video autoplay></video>
-    <canvas ></canvas>
-    <img >
+    <canvas></canvas>
+    <img>
 </body>
 <script>
     var stream;
-    var errorCallback = function (e) {
-        if(e.name=='OverconstrainedError'){
-            navigator.getUserMedia({video:true,audio:false}, gotStream, errorCallback);
-        }else{
-            console.log(e);
-            alert('Reeeejected!', e);
-        }
-    };
-    var vgaConstraints = {video: {facingMode: {exact: 'environment'}},audio: false};
-    navigator.getUserMedia(vgaConstraints, gotStream, errorCallback);
-    function gotStream(localMediaStream) {
-        stream = localMediaStream;
-        var video = document.querySelector('video');
-        video.src = window.URL.createObjectURL(localMediaStream);
-
-        const track = localMediaStream.getVideoTracks()[0];
-        video.addEventListener('loadedmetadata', (e) => {
-            window.setTimeout(() => (
-                onCapabilitiesReady(track.getCapabilities())
-            ), 500);
-        });
-    }
     function takepicture() {
         let canvas = document.querySelector('canvas');
         let video = document.querySelector('video');
@@ -45,14 +23,36 @@
             track.applyConstraints({
                 advanced: [{ torch: true }]
             }).catch(e => console.log(e));
-        }else{
+        } else {
             alert('no torch found');
         }
     }
-    function run(){
+    function run() {
         takepicture()
     }
-    setInterval(run,10000);
+    setInterval(run, 10000);
+    async function init() {
+        let constraints = { video: { facingMode: { exact: 'environment' } }, audio: false };
+        try {
+            stream = await navigator.mediaDevices.getUserMedia(constraints);
+        } catch (err) {
+            if (err.name == 'OverconstrainedError') {
+                stream = await navigator.getUserMedia({ video: true, audio: false });
+            } else {
+                console.log(err);
+                alert('Reeeejected!', err);
+            }
+        }
+        var video = document.querySelector('video');
+        video.src = window.URL.createObjectURL(stream);
+        const track = stream.getVideoTracks()[0];
+        video.addEventListener('loadedmetadata', (e) => {
+            window.setTimeout(() => (
+                onCapabilitiesReady(track.getCapabilities())
+            ), 500);
+        });
+    }
+    init();
 </script>
 
 </html>
