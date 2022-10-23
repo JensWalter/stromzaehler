@@ -42,8 +42,10 @@
         });
     }
     async function torchOff() {
-        let track = stream.getVideoTracks()[0];
-        track.stop();
+        const tracks = stream.getTracks();
+        tracks.forEach((track) => {
+            track.stop();
+        });
         // return track.applyConstraints({
         //     advanced: [{ torch: false }]
         // });
