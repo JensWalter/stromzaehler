@@ -3,20 +3,17 @@
 <body>
     <video autoplay></video>
     <canvas></canvas>
-    <img>
 </body>
 <script>
     var stream;
     function takepicture() {
         let canvas = document.querySelector('canvas');
         let video = document.querySelector('video');
-        let photo = document.querySelector('img');
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
         const context = canvas.getContext('2d');
         context.drawImage(video, 0, 0);
         const data = canvas.toDataURL('image/png');
-        photo.setAttribute('src', data);
     }
     function onCapabilitiesReady(capabilities) {
         if (capabilities.torch) {
