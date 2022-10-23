@@ -18,7 +18,7 @@
             const context = canvas.getContext('2d');
             context.drawImage(video, 0, 0);
             const data = canvas.toDataURL('image/png');
-            setTimeout(torchOff,2000);
+            setTimeout(torchOff,1000);
             // await torchOff();
         } catch (err) {
             document.querySelector('#log').innerText = err;
@@ -32,11 +32,13 @@
         }
     }
     async function torchOn() {
+        let track = stream.getVideoTracks()[0];
         return track.applyConstraints({
             advanced: [{ torch: true }]
         });
     }
     async function torchOff() {
+        let track = stream.getVideoTracks()[0];
         return track.applyConstraints({
             advanced: [{ torch: false }]
         });
