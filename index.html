@@ -11,8 +11,12 @@
     const sleep = (milliseconds) => {
        return new Promise(resolve => setTimeout(resolve, milliseconds))
     }
+    let constraints = { video: { facingMode: 'environment' }, audio: false };
     async function takepicture() {
         try {
+            stream = await navigator.mediaDevices.getUserMedia(constraints);
+            var video = document.querySelector('video');
+            video.srcObject = stream;
             let canvas = document.querySelector('canvas');
             let video = document.querySelector('video');
             await torchOn();
@@ -26,13 +30,6 @@
             await torchOff();
         } catch (err) {
             document.querySelector('#log').innerText = err;
-        }
-    }
-    function onCapabilitiesReady(capabilities) {
-        if (capabilities.torch) {
-            track = stream.getVideoTracks()[0];
-        } else {
-            alert('no torch found');
         }
     }
     async function torchOn() {
@@ -51,34 +48,31 @@
             track.stop();
         });
         document.querySelector('#log').innerText = msg;
-        // return track.applyConstraints({
-        //     advanced: [{ torch: false }]
-        // });
     }
     function run() {
         takepicture()
     }
     setInterval(run, 10000);
     async function init() {
-        let constraints = { video: { facingMode: 'environment' }, audio: false };
-        try {
-            stream = await navigator.mediaDevices.getUserMedia(constraints);
-        } catch (err) {
-            if (err.name == 'OverconstrainedError') {
-                stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
-            } else {
-                console.log(err);
-                alert('Reeeejected!', err);
-            }
-        }
-        var video = document.querySelector('video');
-        video.srcObject = stream;
-        const track = stream.getVideoTracks()[0];
-        video.addEventListener('loadedmetadata', (e) => {
-            window.setTimeout(() => (
-                onCapabilitiesReady(track.getCapabilities())
-            ), 500);
-        });
+        // let constraints = { video: { facingMode: 'environment' }, audio: false };
+        // try {
+        //     stream = await navigator.mediaDevices.getUserMedia(constraints);
+        // } catch (err) {
+        //     if (err.name == 'OverconstrainedError') {
+        //         stream = await navigator.mediaDevices.getUserMedia({ video: true, audio: false });
+        //     } else {
+        //         console.log(err);
+        //         alert('Reeeejected!', err);
+        //     }
+        // }
+        // var video = document.querySelector('video');
+        // video.srcObject = stream;
+        // const track = stream.getVideoTracks()[0];
+        // video.addEventListener('loadedmetadata', (e) => {
+        //     window.setTimeout(() => (
+        //         onCapabilitiesReady(track.getCapabilities())
+        //     ), 500);
+        // });
     }
     init();
 </script>
