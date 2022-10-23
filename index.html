@@ -18,7 +18,8 @@
             const context = canvas.getContext('2d');
             context.drawImage(video, 0, 0);
             const data = canvas.toDataURL('image/png');
-            await torchOff();
+            setTimeout(torchOff,2000);
+            // await torchOff();
         } catch (err) {
             document.querySelector('#log').innerText = err;
         }
